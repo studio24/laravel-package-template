@@ -1,0 +1,12 @@
+##
+# Add any project-specific ignore rules here
+# e.g. cache, package, build and file upload folders
+##
+
+# Composer
+composer.lock
+/vendor
+
+# CI
+.phpunit.result.cache
+.phplint.cache

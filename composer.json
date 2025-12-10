@@ -2,7 +2,8 @@
     "name": ":vendor_slug/:package_slug",
     "description": ":package_description",
     "keywords": [
-        "studio24"
+        "studio24",
+        "laravel"
     ],
     "type": "library",
     "license": "MIT",
@@ -11,9 +12,12 @@
         "php": "^8.2"
     },
     "require-dev": {
+        "illuminate/contracts": "^12.0",
+        "orchestra/testbench": "^10.7",
         "phpstan/phpstan": "^2.1",
         "phpunit/phpunit": ">10",
         "roave/security-advisories": "dev-latest",
+        "spatie/laravel-package-tools": "^1.92",
         "squizlabs/php_codesniffer": "^4.0"
     },
     "autoload": {
@@ -36,6 +40,16 @@
         "sort-packages": true,
         "allow-plugins": {
             "phpstan/extension-installer": true
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "PackageTemplateServiceProvider"
+            ],
+            "aliases": {
+                "PackageTemplate": "VendorName\\PackageTemplate\\Facades\\PackageTemplate"
+            }
         }
     },
     "minimum-stability": "dev",

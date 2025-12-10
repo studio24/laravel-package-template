@@ -30,7 +30,7 @@ function writeln(string $line): void
 
 function run(string $command): string
 {
-    return trim(shell_exec($command) ?? '');
+    return trim((string) shell_exec($command) ?? '');
 }
 
 function slugify(string $subject): string
@@ -109,10 +109,26 @@ foreach ($files as $file) {
         ':package_name' => $packageName,
         ':package_slug' => $packageSlug,
         ':package_description' => $description,
+        'migration_table_name' => title_snake($packageSlug),
     ]);
 
     if (str_contains($file, 'src/ExampleClass.php')) {
         rename($file, './src/' . $className . '.php');
+    }
+    if (str_contains($file, 'src/PackageTemplateServiceProvider.php')) {
+        rename($file, './src/'.$className.'ServiceProvider.php');
+    }
+    if (str_contains($file, 'src/Facades/Skeleton.php')) {
+        rename($file, './src/Facades/'.$className.'.php');
+    }
+    if (str_contains($file, 'src/Commands/SkeletonCommand.php')) {
+        rename($file, './src/Commands/'.$className.'Command.php');
+    }
+    if (str_contains($file, 'database/migrations/create_skeleton_table.php.stub')) {
+        rename($file, './database/migrations/create_'.title_snake($packageSlug).'_table.php.stub');
+    }
+    if (str_contains($file, 'config/skeleton.php')) {
+        rename($file, './config/'.$packageSlug.'.php');
     }
 }
 

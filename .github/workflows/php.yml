@@ -7,13 +7,19 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
-
-    strategy:
-      matrix:
-        php-versions: ['8,2', '8.3', '8.4']
-
+  test:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
+    strategy:
+      fail-fast: true
+      matrix:
+        php-versions: [8.4, 8.3, 8.2]
+        laravel: [12.*, 11.*]
+        include:
+          - laravel: 12.*
+            testbench: 10.*
+          - laravel: 11.*
+            testbench: 9.*
 
     steps:
       # https://github.com/marketplace/actions/checkout
@@ -25,7 +31,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-          extensions: mbstring, intl
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo
           ini-values: post_max_size=256M, max_execution_time=180
           tools: composer
 
@@ -33,7 +39,12 @@ jobs:
         run: php -v
 
       - name: Install dependencies
-        run: composer install --prefer-dist
+        run: |
+          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
+          composer update --prefer-dist --no-interaction
+
+      - name: List installed dependencies
+        run: composer show -D
 
       # https://github.com/marketplace/actions/check-php-syntax-errors
       - name: Check PHP syntax errors

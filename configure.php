@@ -43,6 +43,11 @@ function title_case(string $subject): string
     return str_replace(' ', '', ucwords(str_replace(['-', '_'], ' ', $subject)));
 }
 
+function title_snake(string $subject, string $replace = '_'): string
+{
+    return str_replace(['-', '_'], $replace, $subject);
+}
+
 function replace_in_file(string $file, array $replacements): void
 {
     $contents = file_get_contents($file);

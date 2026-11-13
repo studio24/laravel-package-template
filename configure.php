@@ -62,16 +62,6 @@ function replace_in_file(string $file, array $replacements): void
     );
 }
 
-function removeReadmeParagraphs(string $file): void
-{
-    $contents = file_get_contents($file);
-
-    file_put_contents(
-        $file,
-        preg_replace('/<!--delete-->.*<!--\/delete-->/s', '', $contents) ?: $contents
-    );
-}
-
 function replaceForAllOtherOSes(): array
 {
     return explode(PHP_EOL, run('grep -E -r -l -i "VendorName|PackageTemplate|ExampleClass|vendor_slug|package_name|package_slug|package_description" --exclude-dir=vendor ./* ./.github/* | grep -v ' . basename(__FILE__)));
@@ -123,16 +113,16 @@ foreach ($files as $file) {
     if (str_contains($file, 'src/PackageTemplateServiceProvider.php')) {
         rename($file, './src/'.$className.'ServiceProvider.php');
     }
-    if (str_contains($file, 'src/Facades/Skeleton.php')) {
+    if (str_contains($file, 'src/Facades/PackageTemplate.php')) {
         rename($file, './src/Facades/'.$className.'.php');
     }
-    if (str_contains($file, 'src/Commands/SkeletonCommand.php')) {
+    if (str_contains($file, 'src/Commands/PackageTemplateCommand.php')) {
         rename($file, './src/Commands/'.$className.'Command.php');
     }
     if (str_contains($file, 'database/migrations/create_skeleton_table.php.stub')) {
         rename($file, './database/migrations/create_'.title_snake($packageSlug).'_table.php.stub');
     }
-    if (str_contains($file, 'config/skeleton.php')) {
+    if (str_contains($file, 'config/example.php')) {
         rename($file, './config/'.$packageSlug.'.php');
     }
 }

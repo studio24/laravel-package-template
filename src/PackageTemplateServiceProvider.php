@@ -17,7 +17,7 @@ class PackageTemplateServiceProvider extends PackageServiceProvider
          * More info: https://github.com/spatie/laravel-package-tools
          */
         $package
-            ->name('package')
+            ->name(':package_slug')
             ->hasConfigFile()
             ->hasViews()
             ->hasMigration('create_migration_table_name_table')

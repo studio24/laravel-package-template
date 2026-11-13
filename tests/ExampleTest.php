@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Studio24\PackageTemplate\Tests;
+namespace VendorName\PackageTemplate\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
+use VendorName\PackageTemplate\ExampleClass;
 use VendorName\PackageTemplate\PackageTemplateServiceProvider;
 
 /** @see https://docs.phpunit.de/en/12.4/writing-tests-for-phpunit.html */
@@ -16,14 +17,14 @@ class ExampleTest extends Orchestra
         parent::setUp();
 
         Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'VendorName\\Skeleton\\Database\\Factories\\'.class_basename($modelName).'Factory'
+            fn (string $modelName) => 'VendorName\\PackageTemplate\\Database\\Factories\\'.class_basename($modelName).'Factory'
         );
     }
 
     protected function getPackageProviders($app)
     {
         return [
-            SkeletonServiceProvider::class,
+            PackageTemplateServiceProvider::class,
         ];
     }
 
@@ -36,5 +37,10 @@ class ExampleTest extends Orchestra
             (include $migration->getRealPath())->up();
          }
          */
+    }
+
+    public function test_it_can_instantiate_the_example_class(): void
+    {
+        $this->assertInstanceOf(ExampleClass::class, new ExampleClass());
     }
 }

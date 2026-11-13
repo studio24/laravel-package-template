@@ -9,7 +9,8 @@
     "license": "MIT",
     "homepage": "https://github.com/:vendor_slug/:package_slug",
     "require": {
-        "php": "^8.2"
+        "php": "^8.2",
+        "spatie/laravel-package-tools": "^1.92"
     },
     "require-dev": {
         "illuminate/contracts": "^12.0",
@@ -17,7 +18,6 @@
         "phpstan/phpstan": "^2.1",
         "phpunit/phpunit": ">10",
         "roave/security-advisories": "dev-latest",
-        "spatie/laravel-package-tools": "^1.92",
         "squizlabs/php_codesniffer": "^4.0"
     },
     "autoload": {
